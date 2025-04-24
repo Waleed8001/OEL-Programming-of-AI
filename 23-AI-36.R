@@ -38,6 +38,14 @@ view(sort)
  # Excellent if Average_Score ≥ 85, Good if 70 ≤ Average_Score < 85 and Needs
 #Improvement if Average_Score < 70
 
-new_column <- new_c %>% mutate(Performance_Category = ifelse((Average_Score >= 85), Excellent, ifelse((Average_Score >= 70) & (Average_Score < 70), Good, Needs)))
+new_column <- new_c %>% mutate(Performance_Category = ifelse((Average_Score >= 85), 'Excellent', ifelse((Average_Score >= 70) & (Average_Score < 70), 'Good', ifelse((Average_Score < 70), 'Needs', 'Improvement'))))
 view(new_column)
-                               
+
+# Count the number of students in each Performance_Category   
+count <- new_column %>% group_by(Performance_Category) %>% summarise(n())
+view(count)
+
+# Display only Name, Department, and Performance_Category of students who have Attendance_Percentage below 60.
+
+show <- new_column %>% select(Name, Department, Performance_Category) %>% filter(Attendance_Percentage < 60)
+view(show)
